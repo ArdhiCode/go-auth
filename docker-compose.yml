@@ -1,0 +1,35 @@
+services:
+  app:
+    build:
+      dockerfile: Dockerfile
+    container_name: go-auth-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    env_file:
+      - .env
+    restart: unless-stopped
+
+  db:
+    image: postgres:15-alpine
+    container_name: go-auth-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: go-auth
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+  migrate:
+    build: .
+    command: ["./app", "--migrate"]
+    depends_on:
+      - db
+    env_file:
+      - .env
+
+volumes:
+  pgdata:
