@@ -20,10 +20,10 @@ func NewJWT() JWT {
 	}
 }
 
-func (j *jwtService) CreateToken(userId string, username string) (string, error) {
+func (j *jwtService) CreateToken(userId string, role string) (string, error) {
 	payload := map[string]string{
-		"user_id":  userId,
-		"username": username,
+		"user_id": userId,
+		"role":    role,
 	}
 	return GenerateToken(payload, 24*time.Hour)
 }

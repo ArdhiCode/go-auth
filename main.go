@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/ArdhiCode/go-auth/cmd"
+	"github.com/ArdhiCode/go-auth/internal/config"
 	"github.com/joho/godotenv"
 )
 
@@ -32,4 +33,11 @@ func main() {
 	if err := cmd.Commands(); err != nil {
 		panic("Failed get commands: " + err.Error())
 	}
+
+	RestApi, err := config.NewRest()
+	if err != nil {
+		log.Fatalf("Failed to initialize REST API: %v", err)
+	}
+	log.Println("Starting REST API...")
+	RestApi.Start()
 }

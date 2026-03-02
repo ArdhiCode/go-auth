@@ -19,7 +19,7 @@ func GenerateToken(payload map[string]string, ExpiredAt time.Duration) (string, 
 		claims[i] = v
 	}
 
-	token := jwt.NewWithClaims(jwt.SigningMethodES256, claims)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	accessToken, err := token.SignedString([]byte(getSecretKey()))
 	if err != nil {
 		return accessToken, err
